@@ -28,8 +28,8 @@
 % (N+1)*\sepwidth + N*\colwidth = \paperwidth
 \newlength{\sepwidth}
 \newlength{\colwidth}
-\setlength{\sepwidth}{0.025\paperwidth}
-\setlength{\colwidth}{0.3\paperwidth}
+\setlength{\sepwidth}{0.019\paperwidth}
+\setlength{\colwidth}{0.31\paperwidth}
 
 \newcommand{\separatorcolumn}{\begin{column}{\sepwidth}\end{column}}
 
@@ -41,7 +41,7 @@
 
 \author{Rachel Wilson \and Pratiksha Thaker \and Justine Sherry}
 
-\institute[shortinst]{Carnegie Mellon University}
+\institute[shortinst]{blah}
 
 % ====================
 % Footer (optional)
@@ -73,7 +73,7 @@
 
 \begin{column}{\colwidth}
 
-  \begin{exampleblock}{Motivation}
+  \begin{exampleblock}{\LARGE Motivation}
 
     When people send data through a network, they often share bandwidth
     and experience \textit{delay} as queues build on routers.
@@ -87,37 +87,38 @@
 
     Prior work models this to find optimal sending rates using game theory \cite{hotnets21}.
   \end{exampleblock}
+  \vspace{-5mm}
 
-  \begin{block}{Problem}
+  \begin{block}{\LARGE Problem}
     \vspace{-5mm}
-    Prior work studies multiple senders competing on \textit{one link} \cite{hotnets21}. 
+    {\Large Prior work studies multiple senders competing on \textit{one link} \cite{hotnets21}. 
     \textbf{In real networks, senders share multiple links. How can we
-    extend this model to multiple senders across multiple links?}
+    extend this model to multiple senders across multiple links?}}
   \end{block}
   \vspace{2mm}
 
-  \begin{alertblock}{Goals}
-    \vspace{2mm}
-    \begin{enumerate}
+  \begin{alertblock}{\LARGE Goals}
+    \vspace{4mm}
+    {\Large\begin{enumerate}
       \item \textbf{Model delay for multiple senders}
       \item \textbf{Model delay across multiple links}
       \item \textbf{Model in a way that is simple to integrate with game theory}
-    \end{enumerate}
+    \end{enumerate}}
   \end{alertblock}
   \vspace{2mm}
 
-  \begin{block}{Approach}
+  \begin{block}{\LARGE Approach}
     \vspace{-5mm}
-    First, analyze \textbf{one sender across multiple hops} deterministically.
+    {\Large First, analyze \textbf{one sender across multiple hops} deterministically.
     
-    Next, analyze \textbf{multiple senders across multiple hops} with queueing theory.
+    Next, analyze \textbf{multiple senders across multiple hops} with queueing theory.}
   \end{block}
 \end{column}
 
 \separatorcolumn
 
 \begin{column}{\colwidth}
-  {\LARGE\heading{Delay with One Sender and Multiple Hops}}
+  {\huge\heading{Delay with One Sender and Multiple Hops}}
 
   \begin{block}{Setup}
     \vspace{-7mm}
@@ -137,39 +138,42 @@
     \vspace{-7mm}
     Suprisingly, the order of links does not matter. 
     \textbf{End-to-end latency only depends on the slowest link with capacity $c_\mathrm{min}$.}
-
-      \[\mathrm{Total \ time} = \frac{(p-1)b}{c_\mathrm{min}} + \sum_i \frac{b}{c_i}\]
+    \vspace{3mm}
+    {\Large\[\mathrm{Total \ time} = \frac{pb}{c_\mathrm{min}} + \sum_{i\neq\mathrm{min}} \frac{b}{c_i}\]}
+    \vspace{-4mm}
   \end{block}
+  \vspace{-5mm}
 
   \begin{exampleblock}{Proof Sketch}
     \vspace{-7mm}
     \begin{figure}
-      \includegraphics[scale=0.9]{images/spacetime.png}
+      \includegraphics[scale=0.95]{images/spacetime.png}
     \end{figure}
     \vspace{-5mm}
     Between two links, who finishes first? Does time spent per packet change?
 
-    \textbf{Case 1:} {\LARGE$w_{i-1} + \frac{b}{c_{i-1}} \geq \frac{b}{c_i} \to$}
+    \textbf{Case 1:} {\LARGE$w_{i-1} + \frac{b}{c_{i-1}} \geq \frac{b}{c_i}$} \ \ \
     No change in time between packets
 
-    \textbf{Case 2:} {\LARGE$w_{i-1} + \frac{b}{c_{i-1}} < \frac{b}{c_i} \to$}
+    \textbf{Case 2:} {\LARGE$w_{i-1} + \frac{b}{c_{i-1}} < \frac{b}{c_i}$} \ \ \
     Time increases to the rate of the slower link
 
-    \textbf{Across all links, the time per packet is stretched to the slowest rate.}
+    \textbf{Across all links, the time per packet is stretched to the slowest rate.}\\
+    So total time $=$ time per packet for $p$ packets $+$ time to traverse all links.
   \end{exampleblock}
 \end{column}
 
 \separatorcolumn
 
 \begin{column}{\colwidth}
-  {\LARGE\heading{Delay with Multiple Senders and Multiple Hops}}
+  {\huge\heading{Delay with Multiple Senders and Multiple Hops}}
 
   \begin{block}{Challenge}
     \vspace{-7mm}
     When multiple senders share bandwidth, it's hard to reason deterministically
     about the interleaving of their packets. How do we solve this?
   \end{block}
-  \vspace{-6mm}
+  \vspace{-5mm}
 
   \begin{block}{Poisson Processes}
     \vspace{-5mm}
@@ -179,23 +183,23 @@
       \end{figure}
     \end{center}
     Poisson processes model arrival rates $\lambda$ and link capacities
-     $c$. If stable ($\lambda < c$), they have nice properties \cite{morbook}:
+     $c$. If stable ($\lambda < c$), they have \textbf{nice properties that make modeling multiple senders tractable} \cite{morbook}:
      \begin{itemize}
       \item If the input is Poisson($\lambda$), so is the output.
       \item Poisson($\lambda_1$) $+$ Poisson($\lambda_2$) $=$ Poisson($\lambda_1 + \lambda_2$)
      \end{itemize}
   \end{block}
-  \vspace{-6mm}
+  \vspace{-5mm}
 
   \begin{block}{Result for Multiple Senders}
     \vspace{-7mm}
     When stable, $\mathbb{E}[T_{\lambda_i}]$ is the average time a packet from $\lambda_i$ spends in the network \cite{morbook}.
-    \begin{align*}
+    {\Large\begin{align*}
       \mathbb{E}[T_{\lambda_1}] = \mathbb{E}[T_{\lambda_2}] &= \frac{1}{c_1 - (\lambda_1+\lambda_2)} + \frac{1}{c_2 - (\lambda_1 + \lambda_2+\lambda_3)}\\
       \mathbb{E}[T_{\lambda_3}] &= \frac{1}{c_2 - (\lambda_1 + \lambda_2+\lambda_3)}
-    \end{align*}
+    \end{align*}}
   \end{block}
-  \vspace{-6mm}
+  \vspace{-5mm}
 
   \begin{block}{Conclusion and Next Steps}
     \vspace{-7mm}
@@ -206,7 +210,7 @@
     bound the delay so it does not depend on subsets of senders' rates. This will ultimately
     provide minimum throughput guarantees for senders.
   \end{block}
-  \vspace{-6mm}
+  \vspace{-5mm}
 
   \begin{block}{References}
 
