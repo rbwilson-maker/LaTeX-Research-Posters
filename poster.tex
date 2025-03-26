@@ -37,9 +37,9 @@
 % Title
 % ====================
 
-\title{Modeling Delay in Multi-hop Networks}
+\title{How University Students Read Non-English Code}
 
-\author{Rachel Wilson \and Pratiksha Thaker \and Justine Sherry}
+\author{Rachel Wilson}
 
 \institute[shortinst]{Carnegie Mellon University}
 
@@ -49,8 +49,8 @@
 
 \footercontent{
   \href{mailto:rbwilson@andrew.cmu.edu}{rbwilson@andrew.cmu.edu} \hfill
-  Meeting of the Minds, Pittsburgh,
-  Spring 2023}
+  NCUR, Pittsburgh,
+  Spring 2025}
 % (can be left out to remove footer)
 
 % ====================
@@ -75,42 +75,53 @@
 
   \begin{exampleblock}{Motivation}
 
-    When people send data through a network, they often share bandwidth
-    and experience \textit{delay} as queues build on routers.
+    Computer programming is English-centric, meaning non-native speakers face 
+    barriers when learning to program \cite{hotnets21}.
+
+    Compare for yourself the following code.
+    \begin{center}
+      \begin{figure}
+        \includegraphics[scale=1]{images/Code_sidebyside.png}
+      \end{figure}
+    \end{center}
+    
+    
+    To address this issue, one might ask:
 
     \begin{center}
-      \includegraphics{images/delaydiagram.png}
+      \begin{Large}
+        \textbf{Should programming languages be translated or should programmers learn English?}
+      \end{Large}
     \end{center}
 
-    How fast should they send? Too fast and there's delay. Too slow and
-    throughput suffers.
 
-    Prior work models this to find optimal sending rates using game theory \cite{hotnets21}.
   \end{exampleblock}
 
-  \begin{block}{Problem}
-    \vspace{-5mm}
-    Prior work studies multiple senders competing on \textit{one link} \cite{hotnets21}. 
-    \textbf{In real networks, senders share multiple links. How can we
-    extend this model to multiple senders across multiple links?}
+  \begin{block}{Research Focus}
+    \vspace{-7mm}
+    % Few studies have qualitatively investigated university students and their 
+    % experiences with non-English code.
+    \textbf{In this case study, I research how English-speaking university students
+    leverage their diverse linguistic and programming backgrounds to read non-English code.}
+
   \end{block}
   \vspace{2mm}
 
   \begin{alertblock}{Goals}
     \vspace{2mm}
     \begin{enumerate}
-      \item \textbf{Model delay for multiple senders}
-      \item \textbf{Model delay across multiple links}
-      \item \textbf{Model in a way that is simple to integrate with game theory}
+      \item \textbf{Identify what skills students use to read non-English code}
+      \item \textbf{Formulate further research questions}
+      \item \textbf{Reflect on localized vs. English programming languages}
     \end{enumerate}
   \end{alertblock}
   \vspace{2mm}
 
   \begin{block}{Approach}
-    \vspace{-5mm}
-    First, analyze \textbf{one sender across multiple hops} deterministically.
+
+    First, understand linguistic and programming backgrounds through \textbf{a survey}.
     
-    Next, analyze \textbf{multiple senders across multiple hops} with queueing theory.
+    Next, observe how students read non-English code in \textbf{interviews with a coding activity}.
   \end{block}
 \end{column}
 
@@ -122,11 +133,11 @@
   \begin{block}{Setup}
     \vspace{-7mm}
     Links have capacities, $c_i$, that determine its sending speed.
-    \begin{center}
-      \begin{figure}
-        \includegraphics[scale=.9]{images/onesender.png}
-      \end{figure}
-    \end{center}
+    % \begin{center}
+    %   \begin{figure}
+    %     \includegraphics[scale=.9]{images/onesender.png}
+    %   \end{figure}
+    % \end{center}
     
     How long does it take $p$ packets of $b$ bits each to traverse the network?\\
     It's not obvious how long packets spend on queues.
@@ -142,11 +153,7 @@
   \end{block}
 
   \begin{exampleblock}{Proof Sketch}
-    \vspace{-7mm}
-    \begin{figure}
-      \includegraphics[scale=0.9]{images/spacetime.png}
-    \end{figure}
-    \vspace{-5mm}
+    \vspace{3mm}
     Between two links, who finishes first? Does time spent per packet change?
 
     \textbf{Case 1:} {\LARGE$w_{i-1} + \frac{b}{c_{i-1}} \geq \frac{b}{c_i} \to$}
@@ -173,11 +180,11 @@
 
   \begin{block}{Poisson Processes}
     \vspace{-5mm}
-    \begin{center}
-      \begin{figure}
-        \includegraphics[scale=.65]{images/poisson.png}
-      \end{figure}
-    \end{center}
+    % \begin{center}
+    %   \begin{figure}
+    %     \includegraphics[scale=.65]{images/poisson.png}
+    %   \end{figure}
+    % \end{center}
     Poisson processes model arrival rates $\lambda$ and link capacities
      $c$. If stable ($\lambda < c$), they have nice properties \cite{morbook}:
      \begin{itemize}
