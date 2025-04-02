@@ -19,6 +19,7 @@
 \usepackage{pgfplots}
 \usepackage{multicol}
 \setlength{\columnseprule}{1pt}
+\usepackage{wrapfig}
 
 % ====================
 % Lengths
@@ -28,8 +29,10 @@
 % (N+1)*\sepwidth + N*\colwidth = \paperwidth
 \newlength{\sepwidth}
 \newlength{\colwidth}
+\newlength{\minicolwidth}
 \setlength{\sepwidth}{0.025\paperwidth}
 \setlength{\colwidth}{0.3\paperwidth}
+\setlength{\minicolwidth}{0.3\colwidth}
 
 \newcommand{\separatorcolumn}{\begin{column}{\sepwidth}\end{column}}
 
@@ -75,27 +78,23 @@
 
   \begin{exampleblock}{Motivation}
 
-    Computer programming is English-centric, meaning non-native speakers face 
-    barriers when learning to program \cite{hotnets21}.
+    Computer programming is \textbf{English-centric}, meaning non-native speakers face 
+    barriers when learning to program \cite{guo}\cite{hermansFramework}.
 
-    Compare for yourself the following code.
     \begin{center}
       \begin{figure}
-        \includegraphics[scale=1]{images/Code_sidebyside.png}
+        \includegraphics[width=\textwidth]{images/Code_sidebyside.png}
       \end{figure}
-    \end{center}
-    
-    
-    To address this issue, one might ask:
 
-    \begin{center}
+
       \begin{Large}
-        \textbf{Should programming languages be translated or should programmers learn English?}
+        \textbf{Should programming languages be translated or should programmers be taught English?}
       \end{Large}
     \end{center}
 
 
   \end{exampleblock}
+  \vspace{-8mm}
 
   \begin{block}{Research Focus}
     \vspace{-7mm}
@@ -105,122 +104,150 @@
     leverage their diverse linguistic and programming backgrounds to read non-English code.}
 
   \end{block}
-  \vspace{2mm}
+  \vspace{-5mm}
 
   \begin{alertblock}{Goals}
-    \vspace{2mm}
+    \vspace{4mm}
     \begin{enumerate}
       \item \textbf{Identify what skills students use to read non-English code}
-      \item \textbf{Formulate further research questions}
       \item \textbf{Reflect on localized vs. English programming languages}
+      \item \textbf{Formulate further research questions}
     \end{enumerate}
   \end{alertblock}
-  \vspace{2mm}
+  \vspace{-4mm}
 
   \begin{block}{Approach}
-
+    \vspace{-2mm}
     First, understand linguistic and programming backgrounds through \textbf{a survey}.
     
-    Next, observe how students read non-English code in \textbf{interviews with a coding activity}.
+    Next, observe students in \textbf{interviews with a code tracing activity}.
+
   \end{block}
-\end{column}
-
-\separatorcolumn
-
-\begin{column}{\colwidth}
-  {\LARGE\heading{Delay with One Sender and Multiple Hops}}
-
-  \begin{block}{Setup}
-    \vspace{-7mm}
-    Links have capacities, $c_i$, that determine its sending speed.
-    % \begin{center}
-    %   \begin{figure}
-    %     \includegraphics[scale=.9]{images/onesender.png}
-    %   \end{figure}
-    % \end{center}
-    
-    How long does it take $p$ packets of $b$ bits each to traverse the network?\\
-    It's not obvious how long packets spend on queues.
-  \end{block}
-  \vspace{-7mm}
-
-  \begin{block}{Result for One Sender}
-    \vspace{-7mm}
-    Suprisingly, the order of links does not matter. 
-    \textbf{End-to-end latency only depends on the slowest link with capacity $c_\mathrm{min}$.}
-
-      \[\mathrm{Total \ time} = \frac{(p-1)b}{c_\mathrm{min}} + \sum_i \frac{b}{c_i}\]
-  \end{block}
-
-  \begin{exampleblock}{Proof Sketch}
-    \vspace{3mm}
-    Between two links, who finishes first? Does time spent per packet change?
-
-    \textbf{Case 1:} {\LARGE$w_{i-1} + \frac{b}{c_{i-1}} \geq \frac{b}{c_i} \to$}
-    No change in time between packets
-
-    \textbf{Case 2:} {\LARGE$w_{i-1} + \frac{b}{c_{i-1}} < \frac{b}{c_i} \to$}
-    Time increases to the rate of the slower link
-
-    \textbf{Across all links, the time per packet is stretched to the slowest rate.}
-  \end{exampleblock}
-\end{column}
-
-\separatorcolumn
-
-\begin{column}{\colwidth}
-  {\LARGE\heading{Delay with Multiple Senders and Multiple Hops}}
-
-  \begin{block}{Challenge}
-    \vspace{-7mm}
-    When multiple senders share bandwidth, it's hard to reason deterministically
-    about the interleaving of their packets. How do we solve this?
-  \end{block}
-  \vspace{-6mm}
-
-  \begin{block}{Poisson Processes}
-    \vspace{-5mm}
-    % \begin{center}
-    %   \begin{figure}
-    %     \includegraphics[scale=.65]{images/poisson.png}
-    %   \end{figure}
-    % \end{center}
-    Poisson processes model arrival rates $\lambda$ and link capacities
-     $c$. If stable ($\lambda < c$), they have nice properties \cite{morbook}:
-     \begin{itemize}
-      \item If the input is Poisson($\lambda$), so is the output.
-      \item Poisson($\lambda_1$) $+$ Poisson($\lambda_2$) $=$ Poisson($\lambda_1 + \lambda_2$)
-     \end{itemize}
-  \end{block}
-  \vspace{-6mm}
-
-  \begin{block}{Result for Multiple Senders}
-    \vspace{-7mm}
-    When stable, $\mathbb{E}[T_{\lambda_i}]$ is the average time a packet from $\lambda_i$ spends in the network \cite{morbook}.
-    \begin{align*}
-      \mathbb{E}[T_{\lambda_1}] = \mathbb{E}[T_{\lambda_2}] &= \frac{1}{c_1 - (\lambda_1+\lambda_2)} + \frac{1}{c_2 - (\lambda_1 + \lambda_2+\lambda_3)}\\
-      \mathbb{E}[T_{\lambda_3}] &= \frac{1}{c_2 - (\lambda_1 + \lambda_2+\lambda_3)}
-    \end{align*}
-  \end{block}
-  \vspace{-6mm}
-
-  \begin{block}{Conclusion and Next Steps}
-    \vspace{-7mm}
-    \textbf{We can now easily model delay for multiple senders over multiple hops.}
-    It remains difficult to integrate this into a game theoretic framework.
-    
-    Towards integration with game theory, we must assess the stability assumption and
-    bound the delay so it does not depend on subsets of senders' rates. This will ultimately
-    provide minimum throughput guarantees for senders.
-  \end{block}
-  \vspace{-6mm}
+  \vspace{-4mm}
 
   \begin{block}{References}
-
+    \vspace{-8mm}
     \nocite{*}
     \footnotesize{\bibliographystyle{plain}\bibliography{poster}}
 
   \end{block}
+\end{column}
+
+\separatorcolumn
+
+\begin{column}{\colwidth}
+  {\LARGE\heading{THE SURVEY: Linguistic and Coding Backgrounds}}
+
+  \begin{block}{Demographics}
+    \vspace{-7mm}
+    
+    \begin{center}
+      \textbf{58 undergraduate students} responded to the survey.
+      \vspace{2mm}
+      
+      \includegraphics[width=0.95\textwidth]{images/demographics3.png}
+    \end{center}
+    
+  \end{block}
+  \vspace{4mm}
+
+  \begin{block}{Language Backgrounds}
+    \vspace{-7mm}
+    Students listed \textbf{21 distinct languages} as "Known Well" ($\leq$ 3 per student)\\
+    Top 5: English (58) Spanish (14) Mandarin (13) Hindi (5) French (4)
+
+    \textbf{A large majority (42) were at least bilingual}, showing bias towards multilingual students.
+  \end{block}
+  \vspace{6mm}
+
+  \begin{block}{Coding Backgrounds}
+    \vspace{-7mm}
+    \begin{center}
+      \textbf{45 students} indicated prior coding experience
+
+    \end{center}
+
+    \includegraphics[width=0.5\textwidth]{images/basic_pls2.png}
+    \includegraphics[width=0.5\textwidth]{images/coding_stats2.png}
+
+    When learning to code, the \textbf{language of instruction} was more limited
+    than the languages spoken by the students at the time.
+  \end{block}
+  \vspace{6mm}
+
+  \begin{block}{Considerations for the Interviews}
+    \vspace{-3mm}
+    \begin{wrapfigure}{r}{0.31\textwidth}
+      \includegraphics[width=0.25\textwidth]{images/difficult.png}
+    \end{wrapfigure}
+
+    \textbf{Students agreed it would be more difficult} to \\
+    program in a language they do not speak.
+
+    \textbf{There was no concensus} on if translating or \\
+    teaching English would make programming more \\
+    accessible to non-English speakers.
+    \vspace{3mm}
+  \end{block}
+\end{column}
+
+\separatorcolumn
+
+\begin{column}{\colwidth}
+  {\LARGE\heading{THE INTERVIEW: Coding Activity and Reflections}}
+
+  \begin{block}{Methodology}
+    \vspace{-8mm}
+    \begin{center}
+      \includegraphics[width=0.95\textwidth]{images/interview_process2.png}
+    \end{center}
+
+  \end{block}
+  \vspace{-3mm}
+
+  \begin{exampleblock}{Student Insights}
+    \vspace{7mm}
+    \begin{quotation}
+      "The most difficult part of [learning to code] is juggling all of the surface level knowledge, like what tools do I have access to?"
+    \end{quotation}
+    \begin{quotation}
+      "I have to know English to be able to collaborate with others."
+    \end{quotation}
+    \begin{quotation}
+      "I feel like it can be beneficial if we teach the core concepts of computer science at an early stage in the native language that the speakers speak."
+    \end{quotation}
+  \end{exampleblock}
+  \vspace{-14mm}
+
+  \begin{alertblock}{Interview Results}
+    \vspace{4mm}
+    \begin{enumerate}
+      \item \textbf{Syntax was one of the hardest parts of learning to program.}
+      \item \textbf{Patterns in code syntax allowed students to confidently guess semantics.}
+      \item \textbf{The human language of the code evoked emotional reactions for the programmer.}
+      % This third point is related to Felienne's comment about how coding in one's language is not just semantic, but personal, and political even.
+    \end{enumerate}
+  \end{alertblock}
+  \vspace{2mm}
+
+  \begin{block}{Translate or Educate?}
+    \vspace{-7mm}
+
+    Localization of programming languages and support for non-English language
+    features could increase engagement for multilingual students and lower the 
+    barrier of entry to computer programming around the world. \cite{codeTranslation}\cite{soosairajEngagement}\cite{hermansFramework}
+    
+  \end{block}
+  \vspace{2mm}
+
+  \begin{alertblock}{Further Research Questions}
+    \vspace{4mm}
+    \begin{itemize}
+      \item \textbf{Is CS student retention affected by the human language of the code?}
+      \item \textbf{What code documentation is most effective for non-English speakers?}
+      \item \textbf{How can we increase support for non-English languages in current IDEs?} % felienne framework
+    \end{itemize}
+  \end{alertblock}
 
 \end{column}
 
